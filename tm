@@ -16,6 +16,12 @@ err()
 }
 
 
+running_within_tmux()
+{
+    [ -n "$TMUX" ]
+}
+
+
 ## Main program
 
 MAX_DEPTH=$(expr $TM_DEPTH + 1)
@@ -38,5 +44,12 @@ fi
 
 SESSION="$(basename "$DIR" | tr '[:punct:]' '-')"
 
-cd "$TM_ROOT/$DIR"
-tmux new-session -A -s "$SESSION" -n editor "$TM_EDITOR"
+if ! tmux has-session -t "$SESSION" 2>/dev/null; then
+    tmux new-session -d -s "$SESSION" -c "$TM_ROOT/$DIR" -n editor "$TM_EDITOR"
+fi
+
+if running_within_tmux; then
+    tmux switch-client -t "$SESSION"
+else
+    tmux attach-session -t "$SESSION"
+fi
