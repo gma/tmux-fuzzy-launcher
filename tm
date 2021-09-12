@@ -4,6 +4,7 @@ TM_ROOT="${TM_ROOT:-$HOME/Code}"
 TM_DEPTH=${TM_DEPTH:-3}
 TM_PROJECT_CONTAINS="${TM_PROJECT_CONTAINS:-.git}"
 TM_CRITERIA="${TM_CRITERIA:--type d -name $TM_PROJECT_CONTAINS}"
+TM_FILTER="${TM_FILTER:-cat}"
 TM_EDITOR="${TM_EDITOR:-${EDITOR:-vi}}"
 
 
@@ -29,6 +30,7 @@ MAX_DEPTH=$(expr $TM_DEPTH + 1)
 DIR=$(
     find "$TM_ROOT" -maxdepth $MAX_DEPTH $TM_CRITERIA 2>/dev/null | \
         sed "s,^$TM_ROOT/,,; s,/${TM_PROJECT_CONTAINS}$,," | \
+        $TM_FILTER | \
         fzf
 )
 

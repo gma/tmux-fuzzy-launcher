@@ -74,6 +74,21 @@ If your directory structure is totally flat (with all repos living directly insi
 
 Most people will be able to leave this as is. Decrease it if you've got lots of big projects in a flat directory structure and `tm` isn't loading up as fast as you'd like (on my vintage laptop, it's essentially instant).
 
+### TM_FILTER
+
+Default: `cat`
+
+There might be times when you want to prevent `tm` from listing some of the repositories on your machine. Perhaps you do live coding online, or at talks, and have some repositories that you don't want to show on screen. You could just avoid running `tm`, but once these tools get into your muscle memory... yeah, good luck with that.
+
+Imagine you kept all your repositories in `~/Code`, and stored all the sensitive code in `~/Code/clients`. You can prevent `tm` from listing any repositories within `clients` by setting `TM_FILTER` to `grep` them out. But if you do that, how do you launch all that client work?
+
+Let's hide the client projects by default, and make a separate command for opening client work:
+
+    alias tm="TM_FILTER='grep -v clients/' tm"
+    alias tmc="TM_FILTER='grep clients/' command tm"
+
+Note the use of `command tm` in the second alias; `command` will call the `tm` script directly, rather than calling the `tm` alias (those two grep commands would combine to filter *everything* out).
+
 ### TM_PROJECT_CONTAINS
 
 Default: `.git`
