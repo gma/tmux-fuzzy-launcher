@@ -12,7 +12,7 @@ TM_EDITOR="${TM_EDITOR:-${EDITOR:-vi}}"
 
 err()
 {
-    echo "ERROR: $(basename $0): $@" 1>&2
+    echo "ERROR: $(basename "$0"): $*" 1>&2
     exit 1
 }
 
@@ -25,7 +25,9 @@ running_within_tmux()
 
 ## Main program
 
-MAX_DEPTH=$(expr $TM_DEPTH + 1)
+[ -n "$DEBUG" ] && set -x
+
+MAX_DEPTH=$((TM_DEPTH + 1))
 
 DIR=$(
     find "$TM_ROOT" -maxdepth $MAX_DEPTH $TM_CRITERIA 2>/dev/null | \
