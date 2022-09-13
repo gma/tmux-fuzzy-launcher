@@ -7,7 +7,7 @@ If so, this is for you.
 
 While watching one of [ThePrimeagen's videos], I saw him do something like this:
 
-[Screenshot]
+[TODO: Animated Screenshot]
 
 Prime used [fzf] to search through his local repositories, hitting return to launch Vim in a tmux session. Genius!
 
