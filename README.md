@@ -1,5 +1,5 @@
-tmux-fuzzy-finder
-=================
+tmux-fuzzy-launcher
+===================
 
 Do you like to edit code in a terminal, in [tmux]?
 
