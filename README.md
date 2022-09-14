@@ -16,7 +16,7 @@ Prime's implementation is embedded in his bash config, so I wrote my own (standa
 Install
 -------
 
-To run `tm` you need `tmux` and `fzf` installed. If you're not sure, go do that now.
+To run `tm` you need `tmux` and `fzf` installed. If you don't already have it, go do that now (`apt instal fzf` or `brew install fzf`, or whatever works for you).
 
 `tm` is just a single shell script, so all you need to do is make sure it's exectuable and copied to somewhere in your `PATH`.
 
@@ -30,7 +30,7 @@ Alternatively, once you've checked it out:
 
 In future you can update to the latest version with `git pull`.
 
-If you don't fancy any of that git stuff, this manual approach is also available:
+If you don't fancy any of that git stuff, this manual approach will do it:
 
     curl -O https://raw.githubusercontent.com/gma/tmux-fuzzy-launcher/main/tm
     chmod +x tm
