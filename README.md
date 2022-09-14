@@ -11,7 +11,7 @@ While watching one of [ThePrimeagen's videos], I saw him do something like this:
 
 Prime used [fzf] to search through his local repositories, hitting return to launch Vim in a tmux session. Genius!
 
-Prime's is embedded in his bash config, so I wrote my own (standalone) version.
+Prime's implementation is embedded in his bash config, so I wrote my own (standalone) version. And then I extended it a bit.
 
 Install
 -------
