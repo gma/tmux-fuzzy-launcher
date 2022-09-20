@@ -7,7 +7,7 @@ If so, this is for you.
 
 While watching one of [ThePrimeagen's videos], I saw him do something like this:
 
-[![asciicast](https://asciinema.org/a/B0TOnMQ2qBtDbIUFAgdRZ2j7X.svg)](https://asciinema.org/a/B0TOnMQ2qBtDbIUFAgdRZ2j7X)
+![demo asciicast](./demo/tm.gif)
 
 Prime used [fzf] to search through his local repositories, hitting return to launch Vim in a tmux session. Genius!
 
