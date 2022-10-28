@@ -16,7 +16,7 @@ Prime's implementation is embedded in his bash config, so I wrote my own (standa
 Install
 -------
 
-To run `tm` you need `tmux` and `fzf` installed. If you don't already have it, go do that now (`apt instal fzf` or `brew install fzf`, or whatever works for you).
+To run `tm` you need `tmux` and `fzf` installed. If you don't already have it, go do that now (`apt install fzf` or `brew install fzf`, or whatever works for you).
 
 `tm` is just a single shell script, so all you need to do is make sure it's exectuable and copied to somewhere in your `PATH`.
 
