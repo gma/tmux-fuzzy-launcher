@@ -5,13 +5,13 @@ Do you like to edit code in a terminal, in [tmux]?
 
 If so, this is for you.
 
-While watching one of [ThePrimeagen's videos], I saw him do something like this:
+While watching one of [ThePrimeagen's videos], I saw him do something rather neat. He used [fzf] to search through his local repositories, hitting return to launch Vim in a tmux session. Genius!
+
+Prime's implementation is embedded in his bash config, so I wrote my own version from scratch, and extended it a bit.
+
+Here's a quick demo:
 
 ![demo asciicast](./demo/tm.gif)
-
-Prime used [fzf] to search through his local repositories, hitting return to launch Vim in a tmux session. Genius!
-
-Prime's implementation is embedded in his bash config, so I wrote my own (standalone) version. And then I extended it a bit.
 
 Install
 -------
