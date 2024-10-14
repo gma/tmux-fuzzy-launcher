@@ -48,7 +48,7 @@ fi
 
 SESSION="$(basename "$DIR" | tr '[:punct:]' '-')"
 
-if ! tmux has-session -t "$SESSION" 2>/dev/null; then
+if ! tmux has-session -t "=$SESSION" 2>/dev/null; then
     tmux new-session -d -s "$SESSION" -c "$TM_ROOT/$DIR" -n editor "$TM_EDITOR"
 fi
 
