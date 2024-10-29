@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
+set -euo pipefail
 
 err()
 {
-    local message="$@"
-    echo "ERROR: $(basename $0): $message" 1>&2
+    local message="$1"
+    echo "ERROR: $(basename "$0"): $message" 1>&2
     exit 1
 }
-
 
 if [ "$(whoami)" = "root" ]; then
     DEST=/usr/local/bin
@@ -17,5 +17,5 @@ else
 fi
 
 
-PATH_TO_DIR="$(cd $(dirname $0); pwd)"
+PATH_TO_DIR="$(cd "$(dirname "$0")"; pwd)"
 ln -sf "$PATH_TO_DIR/tm" $DEST
