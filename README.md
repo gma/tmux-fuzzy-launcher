@@ -20,21 +20,27 @@ To run `tm` you need `tmux` and `fzf` installed. If you don't already have it, g
 
 `tm` is just a single shell script, so all you need to do is make sure it's exectuable and copied to somewhere in your `PATH`.
 
-    $ git clone https://github.com/gma/tm.git
-    $ cd tm
-    $ ./install.sh       # creates symlink in ~/.local/bin, if it exists
+```sh
+git clone https://github.com/gma/tm.git
+cd tm
+./install.sh       # creates symlink in ~/.local/bin, if it exists
+```
 
 Alternatively, once you've checked it out:
 
-    $ sudo ./install.sh  # creates symlink in /usr/local/bin
+```sh
+sudo ./install.sh  # creates symlink in /usr/local/bin
+```
 
 In future you can update to the latest version with `git pull`.
 
 If you don't fancy any of that git stuff, this manual approach will do it:
 
-    curl -O https://raw.githubusercontent.com/gma/tmux-fuzzy-launcher/main/tm
-    chmod +x tm
-    mv tm ~/.local/bin/  # or to wherever you like
+```sh
+curl -O https://raw.githubusercontent.com/gma/tmux-fuzzy-launcher/main/tm
+chmod +x tm
+mv tm ~/.local/bin/  # or to wherever you like
+```
 
 Usage
 -----
@@ -43,7 +49,9 @@ Set the `TM_ROOT` environment variable to the name of the folder where you keep 
 
 The default path is `~/Code`, but mine lives in `~/Projects`. So I've added this line to my `.bashrc` file:
 
-    export TM_ROOT=~/Projects
+```sh
+export TM_ROOT=~/Projects
+```
 
 Now run `tm` in your terminal. You'll be able to choose from any of the directories within `$TM_ROOT` that contain a `.git` folder.
 
@@ -52,7 +60,9 @@ Customisation
 
 If the default behaviour doesn't work for how your repos are layed out, you can tweak it with the following environment variables. Define them in your shell's config. In Bash, you'd do it by setting the variable in your `~/.bashrc` file. Like this:
 
-    export TM_EDITOR=nano
+```sh
+export TM_EDITOR=nano
+```
 
 ### TM_ROOT
 
@@ -66,7 +76,9 @@ Default: 3
 
 `tm` runs `find` in order to find directories that live beneath your `$TM_ROOT` directory. By default any directory that contains a `.git` folder will be considered a project that you might want to open, so `tm` runs a command like this to discover them:
 
-    find $TM_ROOT -type d -name .git
+```sh
+find $TM_ROOT -type d -name .git
+```
 
 If you've got thousands of directories beneath `$TM_ROOT`, this could take a while. So we use the `-maxdepth` option to tell `find` not to look so deep in your directory structure.
 
@@ -84,8 +96,10 @@ Imagine you kept all your repositories in `~/Code`, and stored all the sensitive
 
 Let's hide the client projects by default, and make a separate command for opening client work:
 
-    alias tm="TM_FILTER='grep -v clients/' tm"
-    alias tmc="TM_FILTER='grep clients/' command tm"
+```sh
+alias tm="TM_FILTER='grep -v clients/' tm"
+alias tmc="TM_FILTER='grep clients/' command tm"
+```
 
 Note the use of `command tm` in the second alias; `command` will call the `tm` script directly, rather than calling the `tm` alias (those two grep commands would combine to filter *everything* out).
 
@@ -105,8 +119,10 @@ Use `TM_CRITERIA` if you need to teach `tm` a new way of identifying your projec
 
 If you only wanted to search through projects that contain a `README`, you could add this to your `~/.bashrc`:
 
-    export TM_PROJECT_CONTAINS=README
-    export TM_CRITERIA="-type f -name $TM_PROJECT_CONTAINS"
+```sh
+export TM_PROJECT_CONTAINS=README
+export TM_CRITERIA="-type f -name $TM_PROJECT_CONTAINS"
+```
 
 `fzf` will now be passed a list of paths to the directories that contain a `README` file.
 
