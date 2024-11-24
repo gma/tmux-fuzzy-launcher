@@ -27,6 +27,12 @@ running_within_tmux()
 
 [ -n "$DEBUG" ] && set -x
 
+# It's easy to run tm when you really meant to type tmux (e.g. `tm a` to
+# attach to a running session). tm takes no arguments itself, so to handle
+# that, if we've been passed any arguments we pass them through to tmux,
+# then exit.
+[ $# -gt 0 ] && exec tmux "$@"
+
 MAX_DEPTH=$((TM_DEPTH + 1))
 
 DIR=$(
