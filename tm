@@ -10,6 +10,12 @@ TM_EDITOR="${TM_EDITOR:-${EDITOR:-vi}}"
 
 ## Functions
 
+usage()
+{
+    echo "Usage: $(basename "$0") [-c command [-s session]] [-h]" 1>&2
+}
+
+
 err()
 {
     echo "ERROR: $(basename "$0"): $*" 1>&2
@@ -27,35 +33,66 @@ running_within_tmux()
 
 [ -n "$DEBUG" ] && set -x
 
+set -e
+
+while getopts ":c:hs:" opt; do
+    case $opt in
+        :)
+            err "-$OPTARG option requires a value"
+            ;;
+        c)
+            COMMAND="$OPTARG"
+            ;;
+        h)
+            usage
+            exit 0
+            ;;
+        s)
+            SESSION="$OPTARG"
+            ;;
+        *)
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
 # It's easy to run tm when you really meant to type tmux (e.g. `tm a` to
 # attach to a running session). tm takes no arguments itself, so to handle
 # that, if we've been passed any arguments we pass them through to tmux,
 # then exit.
 [ $# -gt 0 ] && exec tmux "$@"
 
-MAX_DEPTH=$((TM_DEPTH + 1))
+if [ -n "$COMMAND" ]; then
+    [ -z "$SESSION" ] && SESSION="$(basename "$COMMAND")"
 
-DIR=$(
-    find "$TM_ROOT" -maxdepth $MAX_DEPTH $TM_CRITERIA 2>/dev/null | \
-        sed "s,^$TM_ROOT/,,; s,/${TM_PROJECT_CONTAINS}$,," | \
-        $TM_FILTER | \
-        fzf
-)
-
-FZF_RC=$?
-
-if [ -z "$DIR" ]; then
-    if [ $FZF_RC -eq 1 ]; then
-        err "no matching path"
-    else
-        exit $FZF_RC
+    if ! tmux has-session -t "=$SESSION" 2>/dev/null; then
+        tmux new-session -d -s "$SESSION" "$COMMAND"
     fi
-fi
+else
+    MAX_DEPTH=$((TM_DEPTH + 1))
 
-SESSION="$(basename "$DIR" | tr '[:punct:]' '-')"
+    DIR=$(
+        find "$TM_ROOT" -maxdepth $MAX_DEPTH $TM_CRITERIA 2>/dev/null | \
+            sed "s,^$TM_ROOT/,,; s,/${TM_PROJECT_CONTAINS}$,," | \
+            $TM_FILTER | \
+            fzf
+    )
 
-if ! tmux has-session -t "=$SESSION" 2>/dev/null; then
-    tmux new-session -d -s "$SESSION" -c "$TM_ROOT/$DIR" -n editor "$TM_EDITOR"
+    FZF_RC=$?
+
+    if [ -z "$DIR" ]; then
+        if [ $FZF_RC -eq 1 ]; then
+            err "no matching path"
+        else
+            exit $FZF_RC
+        fi
+    fi
+
+    SESSION="$(basename "$DIR" | tr '[:punct:]' '-')"
+
+    if ! tmux has-session -t "=$SESSION" 2>/dev/null; then
+        tmux new-session -d -s "$SESSION" -c "$TM_ROOT/$DIR" -n editor "$TM_EDITOR"
+    fi
 fi
 
 if running_within_tmux; then
