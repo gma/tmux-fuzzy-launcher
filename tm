@@ -29,6 +29,21 @@ running_within_tmux()
 }
 
 
+session_exists()
+{
+    local session
+    session="$1"
+
+    tmux has-session -t "=$session" 2>/dev/null
+}
+
+
+create_session()
+{
+    tmux new-session -d -s "$@"
+}
+
+
 ## Main program
 
 [ -n "$DEBUG" ] && set -x
@@ -65,8 +80,8 @@ shift $((OPTIND - 1))
 if [ -n "$COMMAND" ]; then
     [ -z "$SESSION" ] && SESSION="$(basename "$COMMAND")"
 
-    if ! tmux has-session -t "=$SESSION" 2>/dev/null; then
-        tmux new-session -d -s "$SESSION" "$COMMAND"
+    if ! session_exists "$SESSION"; then
+        create_session "$SESSION" "$COMMAND"
     fi
 else
     MAX_DEPTH=$((TM_DEPTH + 1))
@@ -90,8 +105,8 @@ else
 
     SESSION="$(basename "$DIR" | tr '[:punct:]' '-')"
 
-    if ! tmux has-session -t "=$SESSION" 2>/dev/null; then
-        tmux new-session -d -s "$SESSION" -c "$TM_ROOT/$DIR" -n editor "$TM_EDITOR"
+    if ! session_exists "$SESSION"; then
+        create_session "$SESSION" -c "$TM_ROOT/$DIR" -n editor "$TM_EDITOR"
     fi
 fi
 
